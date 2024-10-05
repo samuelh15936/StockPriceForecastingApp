@@ -18,7 +18,7 @@ This application allows users to make predictions on stock price movements for a
 3. Create a virtual environment:
    ```python
    python -m venv stockforecast_env
-   source stockforecast_env/bin/activate  # On Windows use `stockforecast_env\Scripts\activate`
+   stockforecast_env\Scripts\activate  # On macOS use `source stockforecast_env/bin/activate`
    ```
 4. Install required packages:
    ```pip install -r requirements.txt```
