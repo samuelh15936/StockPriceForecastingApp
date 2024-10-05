@@ -45,7 +45,8 @@ def display_menu():
     print("8. Visualize Prediction Accuracy")
     print(Fore.GREEN + "9. Run Demo" + Style.RESET_ALL)
     print("10. Check Real-Time Stock Price")  # New option
-    print("11. Exit")
+    print("11. Clear All Stocks")
+    print("12. Exit")
     print("=" * 30)
 
 def handle_choice(choice, stocks=None, predictions=None):
@@ -77,6 +78,10 @@ def handle_choice(choice, stocks=None, predictions=None):
         demo.run_demo(stocks, predictions)
     elif choice == '10':
         check_real_time_stock_price()
+    elif choice == '11':
+        if confirm_action("Are you sure you want to clear all stocks? This action cannot be undone."):
+            stocks = dm.clear_all_stocks()
+            print("All stocks have been cleared.")
     
     return stocks, predictions
 
@@ -134,14 +139,13 @@ def main():
 
     while True:
         display_menu()
-        choice = get_valid_input("Enter your choice: ", ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11'])
+        choice = input("Enter your choice: ")
         
-        if choice == '11':
-            if confirm_action("Are you sure you want to exit?"):
-                print("Thank you for using the Stock Forecasting App!")
-                break
-        else:
-            stocks, predictions = handle_choice(choice, stocks, predictions)
+        if choice == '12':  # Updated exit option
+            print("Thank you for using the Stock Forecasting Application. Goodbye!")
+            sys.exit()
+        
+        stocks, predictions = handle_choice(choice, stocks, predictions)
         
         input("\nPress Enter to return to the main menu...")
 
@@ -183,11 +187,8 @@ def add_new_stock(stocks):
             stocks = dm.add_stock(stocks, ticker, company_name, current_price)
             dm.save_stock_data(stocks)
             print(f"Stock {ticker} added successfully!")
-            return stocks
-        except ValueError as e:
-            print(f"Error: {str(e)}")
-        except KeyboardInterrupt:
-            print("\nStock addition cancelled.")
+        except Exception as e:
+            print(f"Error adding stock: {str(e)}")
     return stocks
 
 def update_prediction_outcome(predictions):

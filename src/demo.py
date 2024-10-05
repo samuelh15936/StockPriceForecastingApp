@@ -2,9 +2,16 @@
 
 import time
 import main
+import data_management as dm
+import prediction_tracker as pt
 from unittest.mock import patch
 
+def clear_data_for_demo(stocks, predictions):
+    print("Clearing all stocks and predictions for demo purposes...")
+    return dm.clear_all_stocks(), pt.clear_all_predictions()
+
 def run_demo(stocks, predictions):
+    stocks, predictions = clear_data_for_demo(stocks, predictions)
     print("Welcome to the Stock Forecasting Application Demo!")
     input("Press Enter to start the demo...")
 
@@ -26,13 +33,27 @@ def run_demo(stocks, predictions):
         input(f"Press Enter to select option {option}...")
 
         if step_description == "Adding a New Stock (Manual Input)":
-            with patch('builtins.input', side_effect=['DEMO', 'N', 'Demo Company', '100.00']):
+            ticker = input("Enter stock ticker for manual input: ")
+            company_name = input("Enter company name: ")
+            price = input("Enter current price: ")
+            with patch('builtins.input', side_effect=['Y', ticker, 'N', company_name, price]):
                 stocks, predictions = main.handle_choice(option, stocks, predictions)
         elif step_description == "Adding a New Stock (Automatic Fetch)":
-            with patch('builtins.input', side_effect=['AAPL', 'Y', 'Y']):
+            ticker = input("Enter stock ticker for automatic fetch: ")
+            with patch('builtins.input', side_effect=['Y', ticker, 'Y', 'Y']):
+                stocks, predictions = main.handle_choice(option, stocks, predictions)
+        elif step_description == "Making a Prediction":
+            ticker = input("Enter stock ticker for prediction: ")
+            prediction = input("Enter prediction (0-1): ")
+            timeframe = input("Enter timeframe (1, 3, or 12 months): ")
+            with patch('builtins.input', side_effect=['Y', ticker, prediction, timeframe]):
+                stocks, predictions = main.handle_choice(option, stocks, predictions)
+        elif step_description == "Updating a Prediction Outcome":
+            with patch('builtins.input', side_effect=['Y', '0', '1']):
                 stocks, predictions = main.handle_choice(option, stocks, predictions)
         elif step_description == "Checking Real-Time Stock Price":
-            with patch('builtins.input', return_value='AAPL'):
+            ticker = input("Enter stock ticker for real-time price check: ")
+            with patch('builtins.input', return_value=ticker):
                 stocks, predictions = main.handle_choice(option, stocks, predictions)
         else:
             stocks, predictions = main.handle_choice(option, stocks, predictions)

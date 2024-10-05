@@ -38,7 +38,11 @@ To run the tests:
 1. Ensure you're in the project's root directory.
 2. Activate your virtual environment if you haven't already:
    ```python
-   source stockforecast_env/bin/activate  # On Windows use `stockforecast_env\Scripts\activate`
+   # On Windows:
+   stockforecast_env\Scripts\activate
+
+   # On macOS and Linux:
+   source stockforecast_env/bin/activate
    ```
 3. Run the following command:
    ```python

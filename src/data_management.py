@@ -66,3 +66,9 @@ def fetch_stock_data(ticker):
     if current_price is None or company_name is None:
         raise ValueError("Unable to fetch complete stock data")
     return current_price, company_name
+
+def clear_all_stocks():
+    """Clear all stocks from the CSV file and return an empty DataFrame."""
+    empty_df = pd.DataFrame(columns=['Ticker', 'Company Name', 'Current Price', 'Last Updated'])
+    empty_df.to_csv('stocks.csv', index=False)
+    return empty_df

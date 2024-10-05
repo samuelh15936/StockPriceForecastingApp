@@ -66,6 +66,18 @@ def save_all_predictions(predictions, filename='predictions.csv'):
     predictions.to_csv(filename, index=False)
 
 def remove_duplicates(predictions):
-    if 'Timestamp' in predictions.columns:
-        predictions = predictions.sort_values('Timestamp', ascending=False)
-    return predictions.drop_duplicates(subset=['Ticker', 'Timeframe'], keep='first')
+    if predictions.empty:
+        return predictions
+    
+    # Convert 'Timestamp' column to datetime
+    predictions['Timestamp'] = pd.to_datetime(predictions['Timestamp'])
+    
+    predictions = predictions.sort_values('Timestamp', ascending=False)
+    predictions = predictions.drop_duplicates(subset=['Ticker', 'Timeframe'], keep='first')
+    return predictions.reset_index(drop=True)
+
+def clear_all_predictions():
+    """Clear all predictions and return an empty DataFrame."""
+    empty_df = pd.DataFrame(columns=['Ticker', 'Prediction', 'Timeframe', 'Timestamp', 'Actual_Outcome', 'Brier_Score'])
+    empty_df.to_csv('predictions.csv', index=False)
+    return empty_df
