@@ -19,7 +19,7 @@ def add_prediction(predictions, new_prediction):
         new_pred_df_reindexed = new_pred_df.reindex(columns=all_columns, fill_value=None)
         
         # Concatenate the reindexed DataFrames
-        combined = pd.concat([predictions_reindexed, new_pred_df_reindexed], axis=0, ignore_index=True, sort=True)
+        combined = pd.concat([predictions_reindexed, new_pred_df_reindexed], axis=0, ignore_index=True)
         return remove_duplicates(combined)
 
 def make_prediction(ticker, prediction, timeframe):

@@ -1,2 +1,2 @@
 Ticker,Prediction,Timestamp,Timeframe,Actual_Outcome,Brier_Score
-AAPL,0.94,2024-10-05 04:07:45.068913,12 months,1.0,0.0036000000000000064
+AAPL,0.7,2024-10-05 04:43:38.190551,3 months,,

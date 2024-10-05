@@ -130,7 +130,7 @@ def display_stocks(stocks):
         print("--------------")
         print(stocks.to_string(index=False, justify='left'))
 
-def main():
+def main(test_mode=False):
     stocks = dm.load_stock_data()
     predictions = pt.load_predictions()
     predictions = pt.remove_duplicates(predictions)
@@ -141,12 +141,15 @@ def main():
         display_menu()
         choice = input("Enter your choice: ")
         
-        if choice == '12':  # Updated exit option
+        if choice == '12':
             print("Thank you for using the Stock Forecasting Application. Goodbye!")
             sys.exit()
         
         stocks, predictions = handle_choice(choice, stocks, predictions)
         
+        if test_mode:
+            break
+
         input("\nPress Enter to return to the main menu...")
 
 def add_new_stock(stocks):

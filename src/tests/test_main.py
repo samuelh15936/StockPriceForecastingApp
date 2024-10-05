@@ -14,10 +14,10 @@ class TestMain(unittest.TestCase):
         self.sample_stocks = main.dm.load_stock_data()
         self.sample_predictions = main.pt.load_predictions()
 
-    @patch('builtins.input', side_effect=['1', '', '11', 'Y'])
+    @patch('builtins.input', side_effect=['1', '', '12', 'Y', ''])
     @patch('sys.stdout', new_callable=io.StringIO)
     def test_main_menu_view_stocks(self, mock_stdout, mock_input):
-        main.main()
+        main.main(test_mode=True)
         output = mock_stdout.getvalue()
         self.assertIn("Current Stocks", output)
         self.assertIn("Ticker", output)
@@ -37,7 +37,7 @@ class TestMain(unittest.TestCase):
         self.assertIn('3 months', updated_predictions['Timeframe'].values)
 
     @patch('main.pt.load_predictions')
-    @patch('builtins.input', side_effect=['6', '', '11', 'Y'])
+    @patch('builtins.input', side_effect=['6', '', '12', 'Y', ''])
     @patch('sys.stdout', new_callable=io.StringIO)
     def test_view_brier_score(self, mock_stdout, mock_input, mock_load_predictions):
         mock_predictions = pd.DataFrame({
@@ -49,14 +49,14 @@ class TestMain(unittest.TestCase):
             'Brier_Score': [0.09]
         })
         mock_load_predictions.return_value = mock_predictions
-        main.main()
+        main.main(test_mode=True)
         output = mock_stdout.getvalue()
         self.assertIn("Overall Brier Score:", output)
 
-    @patch('builtins.input', side_effect=['10', 'AAPL', '', '11', 'Y'])
+    @patch('builtins.input', side_effect=['10', 'AAPL', '', '12', 'Y', ''])
     @patch('sys.stdout', new_callable=io.StringIO)
     def test_check_real_time_stock_price(self, mock_stdout, mock_input):
-        main.main()
+        main.main(test_mode=True)
         output = mock_stdout.getvalue()
         self.assertIn("Real-time data for AAPL:", output)
         self.assertIn("Current Price:", output)
